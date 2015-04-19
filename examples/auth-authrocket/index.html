@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta property="og:title" content="milkcocoaを利用した認証のサンプル" />
+    <title>milkcocoaを利用した認証のサンプル</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdn.mlkcca.com/v2.0.0/milkcocoa.js"></script>
+    <script src="https://js.authrocket.com/v1/authrocket.js" type="text/javascript"></script>
+    <script>
+    $(function() {
+
+        //var milkcocoa = new MilkCocoa("localhost", {app_id : "iotest0", port : 8001, useSSL : false});
+        var milkcocoa = new MilkCocoa("unii8fmjtlc.mlkcca.com", {app_id : "unii8fmjtlc"});
+
+        $("#user").click(function() {
+	        milkcocoa.user(function(err, user) {
+	        	if(user.condition == "loggedin")
+		        	$("#output").html("ログイン済み" + user.id);
+		        else
+		        	$("#output").html("ログインしてください。");
+	        });
+        });
+
+        $("#login").click(function() {
+            AuthRocket.setInstanceUrl('https://milkcocoa-test.e1.loginrocket.com/v1/');
+            AuthRocket.authenticate({
+                username: "wondergirl775",
+                password: "password"
+              }, function(e) {
+                console.log(e.token);
+                milkcocoa.authWithToken(e.token, function(err, user){console.log(user);});
+              });
+        });
+    });
+    //インジェクション対策
+    function escapeHTML(val) {
+        return $('<div>').text(val).html();
+    };
+    </script>
+</head>
+
+<body>
+
+    <button id="login">ログイン</button>
+    <button id="user">ユーザ情報取得</button>
+    <div id="output"></div>
+    <p class="footer"><strong>Powered by <a href="http://mlkcca.com/">Milkcocoa</a></strong></p>
+</body>
+</html>
