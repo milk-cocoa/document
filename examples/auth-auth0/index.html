@@ -23,12 +23,12 @@
     	    	);
 
         //var milkcocoa = new MilkCocoa("localhost", {app_id : "iotest0", port : 8001, useSSL : false});
-        var milkcocoa = new MilkCocoa("unii8fmjtlc.mlkcca.com", {app_id : "unii8fmjtlc"});
+        var milkcocoa = new MilkCocoa("unii8fmjtlc.mlkcca.com");
 
         $("#user").click(function() {
 	        milkcocoa.user(function(err, user) {
-	        	if(user.condition == "loggedin")
-		        	$("#output").html("ログイン済み" + user.id);
+	        	if(user)
+		        	$("#output").html("ログイン済み" + JSON.stringify(user));
 		        else
 		        	$("#output").html("ログインしてください。");
 	        });
